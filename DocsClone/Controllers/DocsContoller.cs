@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DocsClone.Data;
 using DocsClone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DocsClone
 {
+    [Authorize]
     public class DocsContoller : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,7 +21,6 @@ namespace DocsClone
         // GET: DocsContoller/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -36,7 +37,6 @@ namespace DocsClone
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", doc.UserId);
             return View(doc);
         }
 
@@ -53,7 +53,6 @@ namespace DocsClone
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", doc.UserId);
             return View(doc);
         }
 
